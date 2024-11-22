@@ -2,7 +2,6 @@ appdirs==1.4.4
 attrs==21.2.0
 autobahn==21.11.1
 Automat==20.2.0
-ayatana-settings==21.1.28
 base58==1.0.3
 bcrypt==3.2.0
 beautifulsoup4==4.10.0

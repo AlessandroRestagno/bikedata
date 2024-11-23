@@ -7,8 +7,6 @@ from fitparse import FitFile
 # Load the .fit file
 fit_file = FitFile('yhflr5YcfJD8zHqa4czOkiDQK2vhM60nRbFaCeFQ.fit')  # Replace with your file path
 
-# Prepare CSV file for writing
-csv_file = 'output_data.csv'
 fields = set()
 
 # Extract all record messages from the .fit file

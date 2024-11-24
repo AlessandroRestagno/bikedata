@@ -96,6 +96,9 @@ fig.update_yaxes(autorange="reversed")
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
+# Expose the server for Gunicorn
+server = app.server
+
 app.layout = html.Div([
     html.H1("Power Zone Analysis", style={'textAlign': 'center'}),
     dcc.Graph(figure=fig)

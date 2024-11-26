@@ -1,5 +1,4 @@
-import dash
-from dash import dcc, html, Input, Output, State
+from dash import Dash, dcc, html, Input, Output, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import pandas as pd
@@ -55,7 +54,7 @@ def assign_color(power):
         return 'red'
 
 # Initialize the Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Expose the server for Gunicorn
 server = app.server
@@ -265,21 +264,20 @@ def parse_fit_file(contents, filename):
             html.H4(f"File '{filename}' uploaded successfully."),
             html.P(f"Number of records: {len(df)}"),
             html.P(f"Columns: {', '.join(df.columns)}"),
-            html.H1("Power Zone Analysis", style={'textAlign': 'center'}),
             # Graphs
-        dbc.Row(
-            dbc.Col(dcc.Graph(figure=fig), width=12),  # Full width for first graph
-        ),
-        dbc.Row(
-            [
-                dbc.Col(dcc.Graph(figure=fig_HR), width=6),  # Half-width for HR graph
-                dbc.Col(dcc.Graph(figure=fig_cadence), width=6),  # Half-width for cadence graph
-            ]
-        ),
-        dbc.Row(
-            dbc.Col(dcc.Graph(figure=fig_all), width=12)  # Full width for all data graph
-        ),
-        ])
+            dbc.Row(
+                dbc.Col(dcc.Graph(figure=fig), width=12),  # Full width for first graph
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(dcc.Graph(figure=fig_HR), width=6),  # Half-width for HR graph
+                    dbc.Col(dcc.Graph(figure=fig_cadence), width=6),  # Half-width for cadence graph
+                ]
+            ),
+            dbc.Row(
+                dbc.Col(dcc.Graph(figure=fig_all), width=12)  # Full width for all data graph
+            ),
+            ])
     except Exception as e:
         return html.Div(f"An error occurred while processing the file: {str(e)}")
 

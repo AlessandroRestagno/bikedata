@@ -99,7 +99,6 @@ my_dash_app/
 ├── data_processing.py    # Helper functions for data parsing
 ├── requirements.txt      # Dependencies
 ├── Procfile              # Heroku configuration
-├── runtime.txt           # Python version for Heroku
 └── README.md             # Project documentation
 ```
 
@@ -144,5 +143,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## **Acknowledgments**
 
-- Inspired by cyclists and developers passionate about data and fitness!
+- Inspired by a cyclist and a developer passionate about data and fitness!
 - Built with ❤️ using [Dash](https://dash.plotly.com/) and Python.

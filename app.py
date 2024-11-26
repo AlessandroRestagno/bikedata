@@ -262,20 +262,18 @@ def parse_fit_file(contents, filename):
         # Display summary statistics as an example
         return html.Div([
             html.H4(f"File '{filename}' uploaded successfully."),
-            html.P(f"Number of records: {len(df)}"),
-            html.P(f"Columns: {', '.join(df.columns)}"),
+            # html.P(f"Number of records: {len(df)}"),
+            # html.P(f"Columns: {', '.join(df.columns)}"),
             # Graphs
             dbc.Row(
-                dbc.Col(dcc.Graph(figure=fig), width=12),  # Full width for first graph
+                dbc.Col(dcc.Graph(figure=fig_all), width=12)  # Full width for all data graph
             ),
             dbc.Row(
                 [
-                    dbc.Col(dcc.Graph(figure=fig_HR), width=6),  # Half-width for HR graph
-                    dbc.Col(dcc.Graph(figure=fig_cadence), width=6),  # Half-width for cadence graph
+                    dbc.Col(dcc.Graph(figure=fig), width=4),
+                    dbc.Col(dcc.Graph(figure=fig_HR), width=4),  # Half-width for HR graph
+                    dbc.Col(dcc.Graph(figure=fig_cadence), width=4),  # Half-width for cadence graph
                 ]
-            ),
-            dbc.Row(
-                dbc.Col(dcc.Graph(figure=fig_all), width=12)  # Full width for all data graph
             ),
             ])
     except Exception as e:

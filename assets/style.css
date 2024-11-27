@@ -1,0 +1,19 @@
+.upload-container {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 2em; /* Double the text size */
+    font-weight: bold; /* Makes the text bold */
+    background-color: lightblue; /* Light blue background when not hovered */
+}
+
+.upload-container:hover {
+    background-color: lightgreen; /* Background turns light green on hover */
+}

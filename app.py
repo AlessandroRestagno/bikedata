@@ -60,30 +60,36 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Define layout
-app.layout = html.Div([
-    html.H1("Upload and Analyze Your .FIT File", style={"textAlign": "center"}),
-    
-    dcc.Upload(
-        id="upload-fitfile",
-        children=html.Div([
-            "Drag and Drop or ",
-            html.A("Select a .FIT File")
-        ]),
-        style={
-            "width": "100%",
-            "height": "60px",
-            "lineHeight": "60px",
-            "borderWidth": "1px",
-            "borderStyle": "dashed",
-            "borderRadius": "5px",
-            "textAlign": "center",
-            "margin": "10px"
-        },
-        multiple=False  # Only one file at a time
-    ),
-    
-    html.Div(id="output-data-upload"),
-])
+app.layout = dbc.Container(
+    [
+        dbc.Row(
+            dbc.Col(
+                html.Div(
+                    [
+                        html.H1(
+                            "Upload and Analyze Your .FIT File",
+                            style={"textAlign": "center", "marginTop": "50px"},
+                        ),
+                        dcc.Upload(
+                            id="upload-fitfile",
+                            children=html.Div(
+                                ["Drag and Drop or ", html.A("Select a .FIT File")]
+                            ),
+                            className="upload-container",  # Apply the custom CSS class
+                            multiple=False,  # Only one file at a time
+                        ),
+                        # html.Div(id="output-data-upload"),
+                        dbc.Container(id="output-data-upload", fluid=True),
+                    ]
+                ),
+                width=12  # Adjust width as needed
+            ),
+        )
+    ],
+    fluid=True,
+    className="container-fluid",
+    #className="d-flex justify-content-center align-items-center vh-100",
+)
 
 # Callback to process the uploaded file
 @app.callback(
@@ -93,7 +99,7 @@ app.layout = html.Div([
 )
 def parse_fit_file(contents, filename):
     if contents is None:
-        return html.Div("Please upload a .FIT file to analyze.")
+        return html.Div("Please upload a .FIT file to analyze.",style={"textAlign": "center", "marginTop": "15px"})
 
     # Decode the uploaded file
     content_type, content_string = contents.split(",")
@@ -261,7 +267,7 @@ def parse_fit_file(contents, filename):
 
         # Display summary statistics as an example
         return html.Div([
-            html.H4(f"File '{filename}' uploaded successfully."),
+            html.H4(f"File '{filename}' uploaded successfully.",style={"textAlign": "center", "marginTop": "15px"}),
             # html.P(f"Number of records: {len(df)}"),
             # html.P(f"Columns: {', '.join(df.columns)}"),
             # Graphs

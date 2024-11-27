@@ -94,6 +94,7 @@ app.layout = dbc.Container(
     State("input-ftp", "value"),
     State("input-max-hr", "value")
 )
+
 def parse_fit_file(contents, filename, ftp, max_hr):
     if contents is None:
         return html.Div("Upload a .FIT file to see the corresponding graphs and analysis.", style={"textAlign": "center", "marginTop": "15px"})
@@ -110,7 +111,7 @@ def parse_fit_file(contents, filename, ftp, max_hr):
         return html.Div(
             [
                 html.H4(
-                    f"File '{filename}' uploaded successfully.",
+                    f"File successfully uploaded. Current settings: FTP = {ftp}, Max Heart Rate = {max_hr}.",
                     style={"textAlign": "center", "marginTop": "15px"},
                 ),
                 dbc.Row(
@@ -127,7 +128,6 @@ def parse_fit_file(contents, filename, ftp, max_hr):
         )
     except Exception as e:
         return html.Div(f"An error occurred while processing the file: {str(e)}")
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)

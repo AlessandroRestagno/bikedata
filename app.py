@@ -1,10 +1,5 @@
 from dash import Dash, dcc, html, Input, Output, State
 import dash_bootstrap_components as dbc
-import plotly.graph_objects as go
-import pandas as pd
-import numpy as np
-import datetime
-from fitparse import FitFile
 import io
 import base64
 from data_processing import process_fit_file
@@ -34,55 +29,105 @@ app.layout = dbc.Container(
                             className="upload-container",  # Apply the custom CSS class
                             multiple=False,  # Only one file at a time
                         ),
-                        # html.Div(id="output-data-upload"),
+                        html.Div(
+                            [
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [
+                                                dbc.Label("Enter FTP", style={"textAlign": "center", "marginTop": "10px", "fontWeight": "bold"}),  # Label for FTP
+                                                dbc.Input(
+                                                    id="input-ftp",
+                                                    type="number",
+                                                    placeholder="Enter FTP",
+                                                    value=240,  # Default FTP value
+                                                    style={
+                                                        "textAlign": "center",
+                                                        "marginTop": "10px",
+                                                        "backgroundColor": "yellow",
+                                                        },
+                                                ),
+                                            ],
+                                            width=2,  # Set the same width for both columns
+                                            className="d-flex justify-content-center"  # Centers the content horizontally within the column
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dbc.Label("Enter Max Heart Rate", style={"textAlign": "center", "marginTop": "10px", "fontWeight": "bold"}),  # Label for Max HR
+                                                dbc.Input(
+                                                    id="input-max-hr",
+                                                    type="number",
+                                                    placeholder="Enter Max Heart Rate",
+                                                    value=186,  # Default Max Heart Rate value
+                                                    style={
+                                                        "textAlign": "center",
+                                                        "marginTop": "10px",
+                                                        "backgroundColor": "yellow",
+                                                        },
+                                                ),
+                                            ],
+                                            width=2,  # Set the same width for both columns
+                                            className="d-flex justify-content-center"  # Centers the content horizontally within the column
+                                        ),
+                                    ],
+                                    justify="center",  # Centers the columns in the row
+                                    style={"marginTop": "30px"}  # Optional: Adds space above the row for visual balance
+                                )
+                            ]
+                        ),
                         dbc.Container(id="output-data-upload", fluid=True),
                     ]
                 ),
-                width=12  # Adjust width as needed
+                width=12,  # Adjust width as needed
             ),
         )
     ],
     fluid=True,
     className="container-fluid",
-    #className="d-flex justify-content-center align-items-center vh-100",
 )
 
 # Callback to process the uploaded file
 @app.callback(
     Output("output-data-upload", "children"),
     Input("upload-fitfile", "contents"),
-    State("upload-fitfile", "filename")
+    State("upload-fitfile", "filename"),
+    State("input-ftp", "value"),
+    State("input-max-hr", "value")
 )
-def parse_fit_file(contents, filename):
+def parse_fit_file(contents, filename, ftp, max_hr):
     if contents is None:
-        return html.Div("Please upload a .FIT file to analyze.",style={"textAlign": "center", "marginTop": "15px"})
+        return html.Div("Upload a .FIT file to see the corresponding graphs and analysis.", style={"textAlign": "center", "marginTop": "15px"})
 
     # Decode the uploaded file
     content_type, content_string = contents.split(",")
     decoded = io.BytesIO(base64.b64decode(content_string))
     
     try:
-        fig, fig_HR, fig_cadence, fig_all = process_fit_file(decoded)               
+        # Pass user inputs (FTP and Max HR) to the processing function
+        fig, fig_HR, fig_cadence, fig_all = process_fit_file(decoded, ftp, max_hr)
 
         # Display summary statistics
-        return html.Div([
-            html.H4(f"File '{filename}' uploaded successfully.",style={"textAlign": "center", "marginTop": "15px"}),
-            # html.P(f"Number of records: {len(df)}"),
-            # html.P(f"Columns: {', '.join(df.columns)}"),
-            # Graphs
-            dbc.Row(
-                dbc.Col(dcc.Graph(figure=fig_all), width=12)  # Full width for all data graph
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(dcc.Graph(figure=fig), width=4),
-                    dbc.Col(dcc.Graph(figure=fig_HR), width=4),  # Half-width for HR graph
-                    dbc.Col(dcc.Graph(figure=fig_cadence), width=4),  # Half-width for cadence graph
-                ]
-            ),
-            ])
+        return html.Div(
+            [
+                html.H4(
+                    f"File '{filename}' uploaded successfully.",
+                    style={"textAlign": "center", "marginTop": "15px"},
+                ),
+                dbc.Row(
+                    dbc.Col(dcc.Graph(figure=fig_all), width=12),  # Full width for all data graph
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(dcc.Graph(figure=fig), width=4),
+                        dbc.Col(dcc.Graph(figure=fig_HR), width=4),  # Half-width for HR graph
+                        dbc.Col(dcc.Graph(figure=fig_cadence), width=4),  # Half-width for cadence graph
+                    ]
+                ),
+            ]
+        )
     except Exception as e:
         return html.Div(f"An error occurred while processing the file: {str(e)}")
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -4,9 +4,6 @@ import datetime
 import plotly.graph_objects as go
 from fitparse import FitFile
 
-# FTP = 240
-# max_heart_rate = 186
-
 def process_fit_file(decoded, FTP=240, max_heart_rate=186):
     """
     Process the decoded .FIT file content and generate DataFrame and plots.
@@ -45,7 +42,6 @@ def process_fit_file(decoded, FTP=240, max_heart_rate=186):
 
     # Heart Rate Zones
     # Define the thresholds and zones
-    max_heart_rate = 186  # Replace with your value
     heart_thresholds = np.array([0.5, 0.65, 0.8, 0.85, 0.92]) * max_heart_rate
     HR_zones = np.array(['Resting ', 'Zone 1 ', 'Zone 2 ', 'Zone 3 ', 'Zone 4 ', 'Zone 5 '])
 

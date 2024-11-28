@@ -136,4 +136,4 @@ def parse_fit_file(contents, filename, ftp, max_hr):
         return html.Div(f"An error occurred while processing the file: {str(e)}")
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)

@@ -75,7 +75,12 @@ app.layout = dbc.Container(
                                 )
                             ]
                         ),
-                        dbc.Container(id="output-data-upload", fluid=True),
+                        # dbc.Container(id="output-data-upload", fluid=True),
+                        dcc.Loading(
+                            id="loading",
+                            type="dot",  # Choose spinner type: "circle", "dot", or "default"
+                            children=dbc.Container(id="output-data-upload", fluid=True),
+                        ),
                     ]
                 ),
                 width=12,  # Adjust width as needed

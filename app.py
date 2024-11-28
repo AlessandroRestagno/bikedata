@@ -79,6 +79,7 @@ app.layout = dbc.Container(
                         dcc.Loading(
                             id="loading",
                             type="dot",  # Choose spinner type: "circle", "dot", or "default"
+                            style={"marginTop": "30px"},
                             children=dbc.Container(id="output-data-upload", fluid=True),
                         ),
                     ]

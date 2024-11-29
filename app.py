@@ -3,7 +3,11 @@ import dash_bootstrap_components as dbc
 from callbacks import register_callbacks 
 
 # Initialize the Dash app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    title="Power, Heart Rate, and Cadence Visualization"
+    )
 
 # Expose the server for Gunicorn
 server = app.server
@@ -16,7 +20,7 @@ app.layout = dbc.Container(
                 html.Div(
                     [
                         html.H1(
-                            "Upload and Analyze Your .FIT File",
+                            "Power, Heart Rate, and Cadence Visualization",
                             style={"textAlign": "center", "marginTop": "50px"},
                         ),
                         dcc.Upload(

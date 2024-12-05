@@ -139,6 +139,6 @@ def generate_combined_chart(df,power_thresholds):
                     template='plotly_dark',
                     font=dict(size=16,family="Roboto, monospace",),
                     titlefont=dict(size=20,family="Roboto, monospace"),
-                    xaxis = go.XAxis(showticklabels=False),
+                    xaxis = go.layout.XAxis(showticklabels=False),
                     )     
     return fig
